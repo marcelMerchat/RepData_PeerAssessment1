@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 PAI_template.Rmd
 Project for the Coursera Reproducible Research Class
@@ -29,14 +24,13 @@ Column-3: interval - This column indicates the total number of elapsed minutes
 ## Loading and preprocessing the steps taken data
 
 
-```{r}
 
+```r
 file_name <- "activity.csv"
 
 df_steps <-read.csv("activity.csv")
 
 colnames(df_steps) <- c("steps","date","interval")
-               
 ```
 
 
@@ -44,8 +38,8 @@ colnames(df_steps) <- c("steps","date","interval")
 ## What is mean total number of steps taken per day?
 
 
-```{r simulatedata}
 
+```r
 days <- unique(df_steps[,2])
            
    ##   Form the subsets of the test data for each day
@@ -53,15 +47,14 @@ days <- unique(df_steps[,2])
    ##             day_data[i] <- df_steps[df_steps[,"date"]==days[i],]
    ##    }
 day_sums <- tapply(df_steps[,1],df_steps[,2],sum) / 1000
-
 ```
 
-```{r hist}
 
+```r
 hist(day_sums,breaks=c(0,2,4,6,8,10,12,14,16,18,20,22,24))
+```
 
-
-```     
+![](PA1_template_files/figure-html/hist-1.png) 
 
 
 
