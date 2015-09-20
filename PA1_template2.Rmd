@@ -145,59 +145,19 @@ for(i in seq_along(missing)){
         
         if(missing[i]==TRUE){
                 filled[i,1] <- substitute
+                ##interval_totals[count]
         }
            
 }
 ## print("filled")
 ## print(head(filled,10000))
 
-## print("missing")
+print("missing")
 
 ## print(sum(complete.cases(filled)))
 
-```
 
-
-## Histogram with filled data
-
-```{r hist2}
-
-day_sums2 <- tapply(filled[,1],filled[,2],sum) / 1000
-
-hist(day_sums,breaks=c(-0.01,2,4,6,8,10,12,14,16,18,20,22,24),col="blue",
-                main="Daily Step Totals with Fill",
-                xlab = "Thousands of Steps",
-                ylab = "Frequency",
-                axes = TRUE, ps = 12,
-                right=FALSE)
-```  
-
-
-## Averages and median for filled data
-## Compute the mean and medium number of steps per day.
-
-```{r}
-
-## The mean number of steps
-x_bar2 <- mean(filled[,1],na.rm = TRUE)
-print("The mean number of steps taken each day is indicated below:")
-
-print("Mean with Fill")
-print(x_bar2)
-
-print("Mean without Fill")
-print(x_bar)
-
-x_median2 <- median(filled[,1],na.rm = TRUE)
-print("Median with fill:")
-print(x_median2)
-
-print("Median without fill:")
-print(x_median)
 
 ```
-
-
-
 
 ## Are there differences in activity patterns between weekdays and weekends?
