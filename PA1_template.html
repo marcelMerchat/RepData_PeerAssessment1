@@ -71,7 +71,9 @@ img {
 <p>Column-1: steps Column-2: date Column-3: interval - This column indicates the total number of elapsed minutes in an indirect way. After every hour or 60 minutes, 40 minutes are added so that the minute count changes to 100 instead of 60, 200 after 2-hours, 300 after three hours and so on until the count is 2355 at the end of a day. The next interval reset the count to 0. Although this not a time interval in the usual sense, we also call this variable “interval” in order to match the raw data.</p>
 <div id="loading-and-preprocessing-the-steps-taken-data" class="section level2">
 <h2>Loading and preprocessing the steps taken data</h2>
-<pre class="r"><code>file_name &lt;- &quot;activity.csv&quot;
+<pre class="r"><code>library(ggplot2)
+
+file_name &lt;- &quot;activity.csv&quot;
 
 df_steps &lt;-read.csv(&quot;activity.csv&quot;)
 
@@ -151,13 +153,7 @@ for(i in seq_along(missing)){
                 filled[i,1] &lt;- substitute
         }
            
-}
-## print(&quot;filled&quot;)
-## print(head(filled,10000))
-
-## print(&quot;missing&quot;)
-
-## print(sum(complete.cases(filled)))</code></pre>
+}</code></pre>
 </div>
 <div id="histogram-with-filled-data" class="section level2">
 <h2>Histogram with filled data</h2>
@@ -197,9 +193,34 @@ print(&quot;Median with fill:&quot;)</code></pre>
 <pre><code>## [1] &quot;Median without fill:&quot;</code></pre>
 <pre class="r"><code>print(x_median)</code></pre>
 <pre><code>## [1] 0</code></pre>
+<pre class="r"><code>print(&quot;The data indicates that using the average interval value to fill in for
+      missing values did not change the mean or the median.&quot;)</code></pre>
+<pre><code>## [1] &quot;The data indicates that using the average interval value to fill in for\n      missing values did not change the mean or the median.&quot;</code></pre>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
+<pre class="r"><code>filled[,5] &lt;- weekdays(as.Date(filled[,2]))
+filled[,6] &lt;- &quot;NA&quot;
+colnames(filled) &lt;- c(order1 =
+        &quot;steps&quot;,&quot;date&quot;,&quot;interval&quot;,&quot;good_data&quot;,&quot;dayofweek&quot;,&quot;day_cat&quot;)
+
+weekly_day_avg &lt;- tapply(filled[,1],filled[,5],mean)
+        
+## filled[,&quot;daytype&quot;] &lt;- lapply(filled[,&quot;dayofweek&quot;], function(filled) 
+##        if(filled[filled[,&quot;dayofweek&quot;]==(&quot;Saturday&quot;|&quot;Sunday&quot;),]){
+##           filled[filled[,&quot;dayofweek&quot;]==(&quot;Saturday&quot;|&quot;Sunday&quot;),]}       
+##        else
+##        {
+##              filled[filled[,&quot;dayofweek&quot;]==(&quot;Saturday&quot;|&quot;Sunday&quot;),] &lt;- &quot;Weekday&quot;}      
+##        ) 
+                
+## ggplot(data=df_week_days, aes(wdays2, y=weekly_day_avg)) +  
+##        geom_line(colour=&quot;blue&quot;, linetype=&quot;solid&quot;, size=1.5) +
+##        geom_point(colour=&quot;blue&quot;, size=4, shape=21, fill=&quot;white&quot;) +
+##        xlab(&quot;Day&quot;) +
+##        ylab(&quot;Total Average Steps&quot;) +
+##        ggtitle(&quot;Average Steps by Day of Week&quot;)
+##        facet_wrap(~ day_cat, ncol = 1)</code></pre>
 </div>
 
 

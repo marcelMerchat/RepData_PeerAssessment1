@@ -29,6 +29,8 @@ Column-3: interval - This column indicates the total number of elapsed minutes
 
 
 ```r
+library(ggplot2)
+
 file_name <- "activity.csv"
 
 df_steps <-read.csv("activity.csv")
@@ -100,7 +102,10 @@ print(x_median)
 ## [1] 0
 ```
 
+
 ## What is the average daily activity pattern?
+
+
 
 ```r
  bad <- is.na(df_steps[,1])
@@ -150,6 +155,7 @@ print(attributes(highest_interval)$names)
 ## Imputing missing values
 
 
+
 ```r
 missing <- !complete.cases(df_steps)
 filled  <- df_steps
@@ -187,16 +193,11 @@ for(i in seq_along(missing)){
         }
            
 }
-## print("filled")
-## print(head(filled,10000))
-
-## print("missing")
-
-## print(sum(complete.cases(filled)))
 ```
 
 
 ## Histogram with filled data
+
 
 
 ```r
@@ -215,6 +216,7 @@ hist(day_sums,breaks=c(-0.01,2,4,6,8,10,12,14,16,18,20,22,24),col="blue",
 
 ## Averages and median for filled data
 ## Compute the mean and medium number of steps per day.
+
 
 
 ```r
@@ -292,7 +294,44 @@ print(x_median)
 ## [1] 0
 ```
 
+```r
+print("The data indicates that using the average interval value to fill in for
+      missing values did not change the mean or the median.")
+```
+
+```
+## [1] "The data indicates that using the average interval value to fill in for\n      missing values did not change the mean or the median."
+```
+
 
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+
+
+
+```r
+filled[,5] <- weekdays(as.Date(filled[,2]))
+filled[,6] <- "NA"
+colnames(filled) <- c(order1 =
+        "steps","date","interval","good_data","dayofweek","day_cat")
+
+weekly_day_avg <- tapply(filled[,1],filled[,5],mean)
+        
+## filled[,"daytype"] <- lapply(filled[,"dayofweek"], function(filled) 
+##        if(filled[filled[,"dayofweek"]==("Saturday"|"Sunday"),]){
+##           filled[filled[,"dayofweek"]==("Saturday"|"Sunday"),]}       
+##        else
+##        {
+##              filled[filled[,"dayofweek"]==("Saturday"|"Sunday"),] <- "Weekday"}      
+##        ) 
+                
+## ggplot(data=df_week_days, aes(wdays2, y=weekly_day_avg)) +  
+##        geom_line(colour="blue", linetype="solid", size=1.5) +
+##        geom_point(colour="blue", size=4, shape=21, fill="white") +
+##        xlab("Day") +
+##        ylab("Total Average Steps") +
+##        ggtitle("Average Steps by Day of Week")
+##        facet_wrap(~ day_cat, ncol = 1)
+```
